@@ -1,0 +1,224 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Logo Authenticator</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-primary': '#3B82F6',
+                        'brand-secondary': '#10B981',
+                        'brand-dark': '#1F2937',
+                        'brand-light': '#F3F4F6'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .drop-zone {
+            border: 2px dashed #3B82F6;
+            transition: all 0.3s ease;
+        }
+        .drop-zone.dragover {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: #3B82F6;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-xl">
+        <div class="bg-white shadow-2xl rounded-3xl overflow-hidden transform transition-all duration-500 hover:scale-105">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-brand-primary to-brand-secondary p-6 text-center">
+                <h1 class="text-4xl font-bold text-white tracking-tight flex items-center justify-center space-x-3">
+                    <i data-lucide="shield-check" class="w-10 h-10 stroke-white"></i>
+                    <span>Logo Authenticator</span>
+                </h1>
+                <p class="text-white/80 mt-2">AI-Powered Logo Verification System</p>
+            </div>
+
+            <!-- Upload Section -->
+            <div class="p-8">
+                <form id="uploadForm" action="/predict/" method="POST" enctype="multipart/form-data" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    <!-- Drag and Drop Zone -->
+                    <div id="dropZone" class="drop-zone relative border-2 border-dashed border-brand-primary rounded-2xl p-12 text-center cursor-pointer transition-all duration-300 hover:bg-brand-primary/5">
+                        <input 
+                            type="file" 
+                            id="fileInput" 
+                            name="logo" 
+                            accept="image/*" 
+                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                        >
+                        <div id="dropText" class="pointer-events-none">
+                            <i data-lucide="upload-cloud" class="mx-auto w-16 h-16 stroke-brand-primary mb-4 animate-float"></i>
+                            <p class="text-lg font-semibold text-brand-dark">
+                                Drag & Drop or 
+                                <span class="text-brand-primary underline">Browse</span>
+                            </p>
+                            <p class="text-sm text-gray-500 mt-2">
+                                Supported formats: PNG, JPG, JPEG (Max 5MB)
+                            </p>
+                        </div>
+                        
+                        <!-- Preview Container -->
+                        <div id="previewContainer" class="hidden mt-4">
+                            <img 
+                                id="imagePreview" 
+                                src="#" 
+                                alt="Logo Preview" 
+                                class="mx-auto max-h-64 rounded-lg shadow-lg"
+                            >
+                            <p id="fileName" class="mt-2 text-sm text-gray-600"></p>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button 
+                        type="submit" 
+                        id="submitButton"
+                        class="w-full bg-brand-primary text-white py-3 rounded-lg font-semibold 
+                               hover:bg-brand-primary/90 transition-all duration-300 
+                               flex items-center justify-center space-x-2 
+                               disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled
+                    >
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                        <span>Verify Logo</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-6 text-gray-500 text-sm">
+            <p>Powered by Advanced AI Technology</p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const dropText = document.getElementById('dropText');
+        const previewContainer = document.getElementById('previewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+        const fileName = document.getElementById('fileName');
+        const submitButton = document.getElementById('submitButton');
+
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        // Highlight drop zone when item is dragged over
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        // Handle dropped files
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        // Handle file input change
+        fileInput.addEventListener('change', handleFiles, false);
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function highlight() {
+            dropZone.classList.add('dragover');
+        }
+
+        function unhighlight() {
+            dropZone.classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        function handleFiles(files) {
+            // Support both event and FileList
+            files = files.target ? files.target.files : files;
+            
+            if (files.length === 0) return;
+            
+            const file = files[0];
+            
+            // Validate file type and size
+            const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            
+            if (!validTypes.includes(file.type)) {
+                alert('Please upload a valid image (PNG, JPG, JPEG)');
+                fileInput.value = ''; // Clear input
+                return;
+            }
+            
+            if (file.size > maxSize) {
+                alert('File is too large. Maximum size is 5MB');
+                fileInput.value = ''; // Clear input
+                return;
+            }
+            
+            // Create file reader
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                // Show preview
+                dropText.classList.add('hidden');
+                previewContainer.classList.remove('hidden');
+                imagePreview.src = e.target.result;
+                fileName.textContent = file.name;
+                
+                // Enable submit button
+                submitButton.disabled = false;
+            }
+            
+            reader.readAsDataURL(file);
+        }
+    </script>
+</body>
+</html>

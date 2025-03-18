@@ -1,0 +1,272 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Authentication Result</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-primary': '#3B82F6',
+                        'brand-secondary': '#10B981',
+                        'brand-dark': '#1F2937',
+                        'brand-light': '#F3F4F6'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .result-card {
+            transition: all 0.5s ease;
+        }
+        .result-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-xl">
+        <div class="bg-white shadow-2xl rounded-3xl overflow-hidden result-card">
+            <!-- Header -->
+            <div class="bg-gradient-to-r 
+                {% if result == 'Fake' %}
+                    from-red-500 to-red-700
+                {% else %}
+                    from-green-500 to-green-700
+                {% endif %}
+                p-6 text-center">
+                <h1 class="text-4xl font-bold text-white tracking-tight flex items-center justify-center space-x-3">
+                    {% if result == 'Fake' %}
+                        <i data-lucide="shield-alert" class="w-10 h-10 stroke-white"></i>
+                    {% else %}
+                        <i data-lucide="shield-check" class="w-10 h-10 stroke-white"></i>
+                    {% endif %}
+                    <span>Logo Authentication Result</span>
+                </h1>
+                <p class="text-white/80 mt-2">Powered by Advanced AI Detection</p>
+            </div>
+
+            <!-- Result Section -->
+            <div class="p-8 space-y-6">
+                <!-- Uploaded Image -->
+                <div class="flex justify-center mb-6">
+                    <div class="relative">
+                        <img 
+                            src="{{ file_url }}" 
+                            alt="Uploaded Logo" 
+                            class="max-h-64 max-w-full rounded-2xl shadow-lg object-contain"
+                        >
+                        {% if result == 'Fake' %}
+                            <div class="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold animate-pulse">
+                                Warning
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Detailed Result -->
+                <div class="bg-gray-100 rounded-2xl p-6 text-center">
+                    <div class="flex items-center justify-center space-x-3 mb-4">
+                        {% if result == 'Fake' %}
+                            <i data-lucide="alert-triangle" class="w-8 h-8 stroke-red-600"></i>
+                        {% else %}
+                            <i data-lucide="check-circle" class="w-8 h-8 stroke-green-600"></i>
+                        {% endif %}
+                        <h2 class="text-2xl font-bold 
+                            {% if result == 'Fake' %}
+                                text-red-600
+                            {% else %}
+                                text-green-600
+                            {% endif %}
+                        ">
+                            {{ result }} Logo Detected
+                        </h2>
+                    </div>
+                    
+                    <p class="text-gray-600">
+                        {% if result == 'Fake' %}
+                            Our AI has identified potential inconsistencies in the logo's authenticity.
+                        {% else %}
+                            The logo has passed our comprehensive authentication process.
+                        {% endif %}
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex space-x-4">
+                    <a 
+                        href="/" 
+                        class="flex-1 bg-brand-primary text-white py-3 rounded-lg font-semibold 
+                               hover:bg-brand-primary/90 transition-all duration-300 
+                               flex items-center justify-center space-x-2"
+                    >
+                        <i data-lucide="upload-cloud" class="w-5 h-5"></i>
+                        <span>Upload Another Logo</span>
+                    </a>
+                    
+                    <button 
+                        id="detailsToggle"
+                        class="flex-1 bg-gray-100 text-brand-dark py-3 rounded-lg font-semibold 
+                               hover:bg-gray-200 transition-all duration-300 
+                               flex items-center justify-center space-x-2"
+                    >
+                        <i data-lucide="info" class="w-5 h-5"></i>
+                        <span>More Details</span>
+                    </button>
+                </div>
+
+                <!-- Advanced Details Modal (Hidden by default) -->
+                <div 
+                    id="detailsModal" 
+                    class="fixed inset-0 bg-black/50 z-50 hidden items-center justify-center p-4"
+                >
+                    <div class="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto p-6 relative">
+                        <button 
+                            id="closeModal" 
+                            class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 transition-colors"
+                        >
+                            <i data-lucide="x" class="w-6 h-6"></i>
+                        </button>
+
+                        <h3 class="text-2xl font-bold mb-4 text-brand-dark">
+                            Detailed Logo Analysis
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div class="bg-gray-100 rounded-lg p-4">
+                                <h4 class="font-semibold text-brand-primary mb-2">Detection Confidence</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div 
+                                        class="h-2.5 rounded-full 
+                                        {% if result == 'Fake' %}
+                                            bg-red-600 w-1/2
+                                        {% else %}
+                                            bg-green-600 w-full
+                                        {% endif %}
+                                        "
+                                    ></div>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-2">
+                                    {% if result == 'Fake' %}
+                                        Moderate to High Suspicion of Forgery
+                                    {% else %}
+                                        Verified Authentic
+                                    {% endif %}
+                                </p>
+                            </div>
+
+                            <div class="bg-gray-100 rounded-lg p-4">
+                                <h4 class="font-semibold text-brand-primary mb-2">AI Analysis Criteria</h4>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    <li class="flex items-center space-x-2">
+                                        <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                                        <span>Pixel Integrity Check</span>
+                                    </li>
+                                    <li class="flex items-center space-x-2">
+                                        <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                                        <span>Color Consistency Analysis</span>
+                                    </li>
+                                    <li class="flex items-center space-x-2">
+                                        <i data-lucide="check-circle" class="w-4 h-4 text-green-500"></i>
+                                        <span>Metadata Verification</span>
+                                    </li>
+                                    {% if result == 'Fake' %}
+                                        <li class="flex items-center space-x-2">
+                                            <i data-lucide="alert-triangle" class="w-4 h-4 text-red-500"></i>
+                                            <span>Potential Manipulation Detected</span>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+
+                            <div class="bg-gray-100 rounded-lg p-4">
+                                <h4 class="font-semibold text-brand-primary mb-2">Recommended Actions</h4>
+                                <ul class="space-y-2 text-sm text-gray-700">
+                                    {% if result == 'Fake' %}
+                                        <li class="flex items-center space-x-2">
+                                            <i data-lucide="alert-octagon" class="w-4 h-4 text-red-500"></i>
+                                            <span>Do Not Use This Logo</span>
+                                        </li>
+                                        <li class="flex items-center space-x-2">
+                                            <i data-lucide="search" class="w-4 h-4 text-blue-500"></i>
+                                            <span>Verify Original Source</span>
+                                        </li>
+                                    {% else %}
+                                        <li class="flex items-center space-x-2">
+                                            <i data-lucide="thumbs-up" class="w-4 h-4 text-green-500"></i>
+                                            <span>Safe to Use</span>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-6 text-gray-500 text-sm">
+            <p>AI Authentication Technology by Advanced Detection Systems</p>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Modal Interaction
+        const detailsToggle = document.getElementById('detailsToggle');
+        const detailsModal = document.getElementById('detailsModal');
+        const closeModal = document.getElementById('closeModal');
+
+        detailsToggle.addEventListener('click', () => {
+            detailsModal.classList.remove('hidden');
+            detailsModal.classList.add('flex');
+        });
+
+        closeModal.addEventListener('click', () => {
+            detailsModal.classList.remove('flex');
+            detailsModal.classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        detailsModal.addEventListener('click', (e) => {
+            if (e.target === detailsModal) {
+                detailsModal.classList.remove('flex');
+                detailsModal.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
