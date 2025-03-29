@@ -1,0 +1,498 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Shield - Frequently Asked Questions</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-primary': '#3B82F6',
+                        'brand-secondary': '#10B981',
+                        'brand-dark': '#1F2937',
+                        'brand-light': '#F3F4F6'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            opacity: 1;
+            padding-top: 1rem;
+        }
+        .faq-item.active .faq-icon-plus {
+            display: none;
+        }
+        .faq-item.active .faq-icon-minus {
+            display: block;
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .faq-icon-minus {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="w-full bg-brand-dark text-white py-4 px-6 shadow-md">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+            <!-- Logo and Title -->
+            <div class="flex items-center space-x-3 mb-4 md:mb-0">
+                <i data-lucide="shield" class="w-8 h-8 stroke-brand-primary"></i>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Logo Shield</h1>
+                    <p class="text-xs text-gray-400">Advanced Logo Authentication System</p>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <nav>
+                <ul class="flex space-x-6">
+                    <li>
+                        <a href="/" class="flex items-center space-x-2 hover:text-brand-primary transition-colors">
+                            <i data-lucide="home" class="w-4 h-4"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/about/" class="flex items-center space-x-2 hover:text-brand-primary transition-colors">
+                            <i data-lucide="info" class="w-4 h-4"></i>
+                            <span>About</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/faq/" class="flex items-center space-x-2 text-brand-primary transition-colors">
+                            <i data-lucide="help-circle" class="w-4 h-4"></i>
+                            <span>FAQ</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="py-12 px-4">
+        <div class="container mx-auto max-w-4xl">
+            <!-- Hero Section -->
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-12">
+                <div class="bg-gradient-to-r from-brand-primary to-brand-secondary p-8 md:p-12">
+                    <h1 class="text-3xl md:text-4xl font-bold text-white">Frequently Asked Questions</h1>
+                    <p class="text-white/80 mt-2 text-lg">Find answers to common questions about Logo Shield</p>
+                </div>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="relative mb-12">
+                <input 
+                    type="text" 
+                    id="faqSearch" 
+                    placeholder="Search for questions..." 
+                    class="w-full py-4 px-6 pl-12 rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                >
+                <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute left-4 top-1/2 transform -translate-y-1/2"></i>
+            </div>
+            
+            <!-- FAQ Categories -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <button class="category-btn bg-brand-primary text-white px-4 py-2 rounded-full font-medium transition-colors">
+                    All Questions
+                </button>
+                <button class="category-btn bg-white text-brand-dark px-4 py-2 rounded-full font-medium hover:bg-gray-100 transition-colors">
+                    General
+                </button>
+                <button class="category-btn bg-white text-brand-dark px-4 py-2 rounded-full font-medium hover:bg-gray-100 transition-colors">
+                    Technology
+                </button>
+                <button class="category-btn bg-white text-brand-dark px-4 py-2 rounded-full font-medium hover:bg-gray-100 transition-colors">
+                    Security
+                </button>
+                <button class="category-btn bg-white text-brand-dark px-4 py-2 rounded-full font-medium hover:bg-gray-100 transition-colors">
+                    Pricing
+                </button>
+            </div>
+            
+            <!-- FAQ List -->
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item bg-white rounded-xl shadow-lg overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                        <h3 class="text-lg font-semibold text-brand-dark">What is Logo Shield?</h3>
+                        <div class="flex-shrink-0">
+                            <i data-lucide="plus" class="w-5 h-5 faq-icon-plus text-brand-primary"></i>
+                            <i data-lucide="minus" class="w-5 h-5 faq-icon-minus text-brand-primary"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 text-gray-600">
+                        <p>
+                            Logo Shield is an AI-powered logo authentication system that helps verify the authenticity of logos and brand assets. 
+                            Our technology uses advanced artificial intelligence to analyze logos and detect potential forgeries or manipulations,
+                            providing businesses and individuals with a reliable way to protect their brand identity.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="faq-item bg-white rounded-xl shadow-lg overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                        <h3 class="text-lg font-semibold text-brand-dark">How accurate is Logo Shield's detection?</h3>
+                        <div class="flex-shrink-0">
+                            <i data-lucide="plus" class="w-5 h-5 faq-icon-plus text-brand-primary"></i>
+                            <i data-lucide="minus" class="w-5 h-5 faq-icon-minus text-brand-primary"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 text-gray-600">
+                        <p>
+                            Our AI system has achieved a 99.4% accuracy rate in detecting logo forgeries and manipulations. The system is 
+                            continuously trained on millions of authentic and forged logos to ensure it stays ahead of even the most advanced 
+                            forgery techniques. While no system is 100% perfect, Logo Shield represents the current state-of-the-art in logo 
+                            authentication technology.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="faq-item bg-white rounded-xl shadow-lg overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                        <h3 class="text-lg font-semibold text-brand-dark">What file formats does Logo Shield support?</h3>
+                        <div class="flex-shrink-0">
+                            <i data-lucide="plus" class="w-5 h-5 faq-icon-plus text-brand-primary"></i>
+                            <i data-lucide="minus" class="w-5 h-5 faq-icon-minus text-brand-primary"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 text-gray-600">
+                        <p>
+                            Logo Shield currently supports the following image formats:
+                        </p>
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li>PNG</li>
+                            <li>JPG/JPEG</li>
+                            <li>WebP</li>
+                            <li>SVG</li>
+                            <li>GIF (static only)</li>
+                        </ul>
+                        <p class="mt-2">
+                            We recommend using PNG or SVG formats for logo analysis as they typically maintain the highest quality 
+                            and detail, which helps our system provide the most accurate results.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="faq-item bg-white rounded-xl shadow-lg overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                        <h3 class="text-lg font-semibold text-brand-dark">Is my logo data secure when I use Logo Shield?</h3>
+                        <div class="flex-shrink-0">
+                            <i data-lucide="plus" class="w-5 h-5 faq-icon-plus text-brand-primary"></i>
+                            <i data-lucide="minus" class="w-5 h-5 faq-icon-minus text-brand-primary"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 text-gray-600">
+                        <p>
+                            Yes, we take data security very seriously. All uploaded files are encrypted during transit and storage. 
+                            Our standard policy is to automatically delete uploaded logos after analysis is complete (typically within 24 hours) 
+                            unless you specifically request longer storage as part of our premium services.
+                        </p>
+                        <p class="mt-2">
+                            We do not share your logo data with third parties, and our systems are compliant with industry-standard 
+                            security protocols and regulations.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 5 -->
+                <div class="faq-item bg-white rounded-xl shadow-lg overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                        <h3 class="text-lg font-semibold text-brand-dark">How does Logo Shield's AI technology work?</h3>
+                        <div class="flex-shrink-0">
+                            <i data-lucide="plus" class="w-5 h-5 faq-icon-plus text-brand-primary"></i>
+                            <i data-lucide="minus" class="w-5 h-5 faq-icon-minus text-brand-primary"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 text-gray-600">
+                        <p>
+                            Logo Shield uses a multi-layered approach to logo authentication:
+                        </p>
+                        <ol class="list-decimal list-inside mt-2 space-y-2">
+                            <li><strong>Pixel Analysis:</strong> Our system examines the pixel-level integrity of the logo to detect any inconsistencies or manipulations.</li>
+                            <li><strong>Pattern Recognition:</strong> Using deep learning, we analyze patterns within the logo that are characteristic of authentic vs. generated images.</li>
+                            <li><strong>Metadata Verification:</strong> We examine file metadata for indicators of editing or manipulation.</li>
+                            <li><strong>Color Profile Analysis:</strong> Our AI checks for color consistency and gradients that may indicate forgery.</li>
+                            <li><strong>Cross-Reference Verification:</strong> For registered brands, we can compare against our database of authentic logos.</li>
+                        </ol>
+                        <p class="mt-3">
+                            These combined approaches allow our system to detect even sophisticated forgeries with high accuracy.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 6 -->
+                <div class="faq-item bg-white rounded-xl shadow-lg overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                        <h3 class="text-lg font-semibold text-brand-dark">Is there a free version of Logo Shield?</h3>
+                        <div class="flex-shrink-0">
+                            <i data-lucide="plus" class="w-5 h-5 faq-icon-plus text-brand-primary"></i>
+                            <i data-lucide="minus" class="w-5 h-5 faq-icon-minus text-brand-primary"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 text-gray-600">
+                        <p>
+                            Yes! We offer a free tier that allows you to authenticate up to 10 logos per month. This is perfect for individuals, 
+                            small businesses, or anyone who wants to try our service before committing to a paid plan.
+                        </p>
+                        <p class="mt-2">
+                            Our premium plans offer additional features like:
+                        </p>
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li>Higher volume of logo authentications</li>
+                            <li>Batch processing</li>
+                            <li>API access for integration with your systems</li>
+                            <li>Detailed forensic reports</li>
+                            <li>Brand monitoring services</li>
+                        </ul>
+                        <p class="mt-2">
+                            Visit our <a href="/pricing/" class="text-brand-primary hover:underline">Pricing Page</a> to learn more about our plans.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 7 -->
+                <div class="faq-item bg-white rounded-xl shadow-lg overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                        <h3 class="text-lg font-semibold text-brand-dark">Can Logo Shield detect AI-generated logos?</h3>
+                        <div class="flex-shrink-0">
+                            <i data-lucide="plus" class="w-5 h-5 faq-icon-plus text-brand-primary"></i>
+                            <i data-lucide="minus" class="w-5 h-5 faq-icon-minus text-brand-primary"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 text-gray-600">
+                        <p>
+                            Yes, Logo Shield is specifically designed to detect logos created by AI image generators. Our system is continuously 
+                            trained on the latest AI-generated images to stay ahead of emerging forgery techniques.
+                        </p>
+                        <p class="mt-2">
+                            We can detect patterns and artifacts that are characteristic of AI generation tools, even as these tools become 
+                            increasingly sophisticated. Our detection capabilities are regularly updated to recognize new AI generation techniques 
+                            as they emerge.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 8 -->
+                <div class="faq-item bg-white rounded-xl shadow-lg overflow-hidden">
+                    <button class="faq-toggle w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none">
+                        <h3 class="text-lg font-semibold text-brand-dark">What if Logo Shield can't determine if my logo is authentic?</h3>
+                        <div class="flex-shrink-0">
+                            <i data-lucide="plus" class="w-5 h-5 faq-icon-plus text-brand-primary"></i>
+                            <i data-lucide="minus" class="w-5 h-5 faq-icon-minus text-brand-primary"></i>
+                        </div>
+                    </button>
+                    <div class="faq-answer px-6 pb-4 text-gray-600">
+                        <p>
+                            In rare cases where our automated system cannot make a definitive determination (typically less than 2% of scans), 
+                            we offer manual review options:
+                        </p>
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li>Free users will receive a notification suggesting they try a clearer or higher-resolution image</li>
+                            <li>Premium users can request a manual review by our forensic team at no additional cost</li>
+                            <li>Enterprise clients have access to priority manual reviews with detailed reports</li>
+                        </ul>
+                        <p class="mt-2">
+                            Our goal is to provide definitive answers whenever possible, and we continuously improve our system to reduce 
+                            indeterminate results.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Still Have Questions -->
+            <div class="bg-white rounded-xl shadow-lg p-8 text-center mt-12">
+                <h2 class="text-2xl font-bold text-brand-dark mb-4">Still Have Questions?</h2>
+                <p class="text-gray-600 mb-6">
+                    Our support team is ready to help you with any questions not covered here.
+                </p>
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <a href="/contact/" class="bg-brand-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-primary/90 transition-colors flex items-center justify-center">
+                        <i data-lucide="mail" class="w-5 h-5 mr-2"></i>
+                        Contact Support
+                    </a>
+                    <a href="/documentation/" class="bg-gray-100 text-brand-dark px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors flex items-center justify-center">
+                        <i data-lucide="book-open" class="w-5 h-5 mr-2"></i>
+                        Read Documentation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-brand-dark text-white py-6 px-6 mt-12">
+        <div class="container mx-auto">
+            <!-- Top Footer -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i data-lucide="shield" class="w-6 h-6 stroke-brand-primary"></i>
+                        <h3 class="text-lg font-bold">Logo Shield</h3>
+                    </div>
+                    <p class="text-sm text-gray-400">
+                        Advanced AI-powered logo authentication technology to protect brand integrity.
+                    </p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>
+                            <a href="/about/" class="hover:text-brand-primary transition-colors">About Us</a>
+                        </li>
+                        <li>
+                            <a href="/services/" class="hover:text-brand-primary transition-colors">Our Services</a>
+                        </li>
+                        <li>
+                            <a href="/blog/" class="hover:text-brand-primary transition-colors">Blog</a>
+                        </li>
+                        <li>
+                            <a href="/contact/" class="hover:text-brand-primary transition-colors">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contact Us</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="mail" class="w-4 h-4 stroke-brand-primary"></i>
+                            <a href="mailto:info@logoshield.com" class="hover:text-brand-primary transition-colors">info@logoshield.com</a>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="phone" class="w-4 h-4 stroke-brand-primary"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bottom Footer -->
+            <div class="pt-4 border-t border-gray-700 flex flex-col md:flex-row items-center justify-between">
+                <p class="text-sm text-gray-500 mb-4 md:mb-0">
+                    &copy; 2025 Logo Shield. All rights reserved.
+                </p>
+                
+                <!-- Social Media Links -->
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-brand-primary transition-colors">
+                        <i data-lucide="twitter" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-brand-primary transition-colors">
+                        <i data-lucide="facebook" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-brand-primary transition-colors">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-brand-primary transition-colors">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+        
+        // FAQ Toggle Functionality
+        const faqToggles = document.querySelectorAll('.faq-toggle');
+        
+        faqToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const faqItem = toggle.parentElement;
+                faqItem.classList.toggle('active');
+            });
+        });
+        
+        // FAQ Search Functionality
+        const faqSearch = document.getElementById('faqSearch');
+        const faqItems = document.querySelectorAll('.faq-item');
+        
+        faqSearch.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('h3').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+        
+        // Category Filtering
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Update active button styling
+                categoryButtons.forEach(btn => {
+                    btn.classList.remove('bg-brand-primary', 'text-white');
+                    btn.classList.add('bg-white', 'text-brand-dark', 'hover:bg-gray-100');
+                });
+                
+                this.classList.remove('bg-white', 'text-brand-dark', 'hover:bg-gray-100');
+                this.classList.add('bg-brand-primary', 'text-white');
+                
+                // Filter functionality would go here in a real implementation
+                // This is just a demo UI for now
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,347 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Shield - About Us</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-primary': '#3B82F6',
+                        'brand-secondary': '#10B981',
+                        'brand-dark': '#1F2937',
+                        'brand-light': '#F3F4F6'
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 4s ease-in-out infinite'
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="w-full bg-brand-dark text-white py-4 px-6 shadow-md">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+            <!-- Logo and Title -->
+            <div class="flex items-center space-x-3 mb-4 md:mb-0">
+                <i data-lucide="shield" class="w-8 h-8 stroke-brand-primary"></i>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Logo Shield</h1>
+                    <p class="text-xs text-gray-400">Advanced Logo Authentication System</p>
+                </div>
+            </div>
+            
+            <!-- Navigation -->
+            <nav>
+                <ul class="flex space-x-6">
+                    <li>
+                        <a href="/" class="flex items-center space-x-2 hover:text-brand-primary transition-colors">
+                            <i data-lucide="home" class="w-4 h-4"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/about/" class="flex items-center space-x-2 text-brand-primary transition-colors">
+                            <i data-lucide="info" class="w-4 h-4"></i>
+                            <span>About</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/faq/" class="flex items-center space-x-2 hover:text-brand-primary transition-colors">
+                            <i data-lucide="help-circle" class="w-4 h-4"></i>
+                            <span>FAQ</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="py-12 px-4">
+        <div class="container mx-auto max-w-6xl">
+            <!-- Hero Section -->
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden mb-12">
+                <div class="bg-gradient-to-r from-brand-primary to-brand-secondary p-8 md:p-12">
+                    <h1 class="text-3xl md:text-4xl font-bold text-white">About Logo Shield</h1>
+                    <p class="text-white/80 mt-2 text-lg">Protecting Brand Integrity in the Digital Age</p>
+                </div>
+                
+                <div class="p-8 md:p-12">
+                    <div class="prose max-w-none">
+                        <p class="text-lg text-gray-700 leading-relaxed">
+                            Logo Shield is a pioneering technology company at the forefront of brand protection. 
+                            Our AI-powered logo authentication system helps businesses, designers, and consumers 
+                            verify the authenticity of logos and brand assets with unprecedented accuracy.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Our Story Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <div class="md:col-span-1">
+                    <div class="sticky top-20">
+                        <h2 class="text-2xl font-bold text-brand-dark mb-4">Our Story</h2>
+                        <div class="h-1 w-20 bg-brand-primary mb-6"></div>
+                        <p class="text-gray-600">
+                            Founded in 2023, Logo Shield emerged from a simple yet powerful vision: to create a world where 
+                            brand identities are protected in an increasingly digital landscape.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="md:col-span-2 space-y-8">
+                    <div class="bg-white rounded-xl p-6 shadow-lg">
+                        <h3 class="text-xl font-semibold text-brand-dark mb-3">The Beginning</h3>
+                        <p class="text-gray-700 mb-4">
+                            In early 2023, our founders—a team of AI researchers, cybersecurity experts, and brand specialists—recognized 
+                            a growing problem: the rise of sophisticated logo forgery and brand impersonation. With the proliferation of 
+                            AI image generation tools, creating convincing fake logos had become easier than ever, putting brands at risk.
+                        </p>
+                        <p class="text-gray-700">
+                            After months of intensive research and development, our team created a revolutionary AI model capable of 
+                            detecting even the most sophisticated logo forgeries with remarkable accuracy.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-lg">
+                        <h3 class="text-xl font-semibold text-brand-dark mb-3">Our Mission</h3>
+                        <p class="text-gray-700 mb-4">
+                            Logo Shield's mission is to empower brands, designers, and consumers with the tools they need to verify 
+                            authentic visual brand assets in seconds. We believe that trust is the foundation of brand value, and 
+                            we're committed to preserving that trust in the digital ecosystem.
+                        </p>
+                        <div class="flex items-center space-x-4 mt-6">
+                            <div class="bg-brand-light p-3 rounded-full">
+                                <i data-lucide="shield" class="w-6 h-6 stroke-brand-primary"></i>
+                            </div>
+                            <p class="font-medium text-brand-dark">Protecting over 10,000 brands worldwide</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-lg">
+                        <h3 class="text-xl font-semibold text-brand-dark mb-3">Our Technology</h3>
+                        <p class="text-gray-700 mb-4">
+                            At the heart of Logo Shield is our proprietary AI system, which combines computer vision, deep learning, 
+                            and forensic analysis to evaluate logos across multiple dimensions:
+                        </p>
+                        <ul class="space-y-2 text-gray-700 mb-4">
+                            <li class="flex items-start space-x-2">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-brand-secondary mt-0.5"></i>
+                                <span>Pixel-level integrity and manipulation detection</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-brand-secondary mt-0.5"></i>
+                                <span>Color profile and gradient consistency analysis</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-brand-secondary mt-0.5"></i>
+                                <span>Metadata verification and cross-referencing</span>
+                            </li>
+                            <li class="flex items-start space-x-2">
+                                <i data-lucide="check-circle" class="w-5 h-5 text-brand-secondary mt-0.5"></i>
+                                <span>Advanced pattern recognition algorithms</span>
+                            </li>
+                        </ul>
+                        <p class="text-gray-700">
+                            Our system is continuously trained on millions of authentic and forged logos, ensuring it stays ahead 
+                            of even the most advanced forgery techniques.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Team Section -->
+            <h2 class="text-2xl font-bold text-brand-dark mb-6">Our Leadership Team</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <!-- Team Member 1 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-brand-dark">Dr. Sarah Chen</h3>
+                        <p class="text-brand-primary font-medium mb-4">CEO & Co-Founder</p>
+                        <p class="text-gray-600 text-sm">
+                            Former AI research lead at MIT with over 15 years of experience in computer vision and 
+                            deep learning technologies.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Team Member 2 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-brand-dark">Michael Rodriguez</h3>
+                        <p class="text-brand-primary font-medium mb-4">CTO & Co-Founder</p>
+                        <p class="text-gray-600 text-sm">
+                            Cybersecurity expert with a background in digital forensics and a passion for 
+                            advancing brand protection technologies.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Team Member 3 -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-brand-dark">Emma Wilson</h3>
+                        <p class="text-brand-primary font-medium mb-4">Chief Design Officer</p>
+                        <p class="text-gray-600 text-sm">
+                            Award-winning brand designer with 12+ years of experience working with global brands 
+                            on digital identity and protection strategies.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Section -->
+            <div class="bg-white rounded-xl p-8 shadow-xl mb-12">
+                <h2 class="text-2xl font-bold text-brand-dark mb-8 text-center">Our Impact</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="text-center">
+                        <p class="text-4xl font-bold text-brand-primary">99.4%</p>
+                        <p class="text-gray-600 mt-2">Detection Accuracy</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-4xl font-bold text-brand-primary">10M+</p>
+                        <p class="text-gray-600 mt-2">Logos Scanned</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-4xl font-bold text-brand-primary">98%</p>
+                        <p class="text-gray-600 mt-2">Client Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CTA Section -->
+            <div class="bg-gradient-to-r from-brand-dark to-brand-primary rounded-xl p-8 text-center shadow-xl">
+                <h2 class="text-2xl font-bold text-white mb-4">Ready to Protect Your Brand?</h2>
+                <p class="text-white/80 mb-6 max-w-2xl mx-auto">
+                    Join thousands of companies that trust Logo Shield to protect their brand identity in the digital world.
+                </p>
+                <a href="/" class="inline-block bg-white text-brand-primary px-6 py-3 rounded-lg font-semibold hover:bg-brand-light transition-colors">
+                    Try Logo Shield Free
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-brand-dark text-white py-6 px-6 mt-12">
+        <div class="container mx-auto">
+            <!-- Top Footer -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i data-lucide="shield" class="w-6 h-6 stroke-brand-primary"></i>
+                        <h3 class="text-lg font-bold">Logo Shield</h3>
+                    </div>
+                    <p class="text-sm text-gray-400">
+                        Advanced AI-powered logo authentication technology to protect brand integrity.
+                    </p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>
+                            <a href="/about/" class="hover:text-brand-primary transition-colors">About Us</a>
+                        </li>
+                        <li>
+                            <a href="/services/" class="hover:text-brand-primary transition-colors">Our Services</a>
+                        </li>
+                        <li>
+                            <a href="/blog/" class="hover:text-brand-primary transition-colors">Blog</a>
+                        </li>
+                        <li>
+                            <a href="/contact/" class="hover:text-brand-primary transition-colors">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contact Us</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="mail" class="w-4 h-4 stroke-brand-primary"></i>
+                            <a href="mailto:info@logoshield.com" class="hover:text-brand-primary transition-colors">info@logoshield.com</a>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="phone" class="w-4 h-4 stroke-brand-primary"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bottom Footer -->
+            <div class="pt-4 border-t border-gray-700 flex flex-col md:flex-row items-center justify-between">
+                <p class="text-sm text-gray-500 mb-4 md:mb-0">
+                    &copy; 2025 Logo Shield. All rights reserved.
+                </p>
+                
+                <!-- Social Media Links -->
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-brand-primary transition-colors">
+                        <i data-lucide="twitter" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-brand-primary transition-colors">
+                        <i data-lucide="facebook" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-brand-primary transition-colors">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-brand-primary transition-colors">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -9,8 +9,14 @@ from .forms import LogoUploadForm
 model = load_model('fake_logo_detector.h5')
 
 def index(request):
+    return render(request, 'detection/index.html')
+
+def about(request):
+    return render(request, 'detection/about.html')
+
+def faq(request):
     form = LogoUploadForm()
-    return render(request, 'detection/index.html', {'form': form})
+    return render(request, 'detection/faq.html', {'form': form})
 
 def predict(request):
     if request.method == 'POST':

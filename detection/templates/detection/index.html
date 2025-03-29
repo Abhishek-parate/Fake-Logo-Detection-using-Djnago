@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Logo Authenticator</title>
+    <title>Logo Shield - AI Logo Authenticator</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -44,6 +44,16 @@
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
         }
         .drop-zone {
             border: 2px dashed #3B82F6;
@@ -55,77 +65,225 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-xl">
-        <div class="bg-white shadow-2xl rounded-3xl overflow-hidden transform transition-all duration-500 hover:scale-105">
-            <!-- Header -->
-            <div class="bg-gradient-to-r from-brand-primary to-brand-secondary p-6 text-center">
-                <h1 class="text-4xl font-bold text-white tracking-tight flex items-center justify-center space-x-3">
-                    <i data-lucide="shield-check" class="w-10 h-10 stroke-white"></i>
-                    <span>Logo Authenticator</span>
-                </h1>
-                <p class="text-white/80 mt-2">AI-Powered Logo Verification System</p>
+<body>
+    <!-- Header -->
+    <header class="w-full bg-brand-dark text-white py-4 px-6 shadow-md">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
+            <!-- Logo and Title -->
+            <div class="flex items-center space-x-3 mb-4 md:mb-0">
+                <i data-lucide="shield" class="w-8 h-8 stroke-brand-primary"></i>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight">Logo Shield</h1>
+                    <p class="text-xs text-gray-400">Advanced Logo Authentication System</p>
+                </div>
             </div>
+            
+            <!-- Navigation -->
+            <nav>
+                <ul class="flex space-x-6">
+                    <li>
+                        <a href="/" class="flex items-center space-x-2 text-brand-primary transition-colors">
+                            <i data-lucide="home" class="w-4 h-4"></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/about/" class="flex items-center space-x-2 hover:text-brand-primary transition-colors">
+                            <i data-lucide="info" class="w-4 h-4"></i>
+                            <span>About</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/faq/" class="flex items-center space-x-2 hover:text-brand-primary transition-colors">
+                            <i data-lucide="help-circle" class="w-4 h-4"></i>
+                            <span>FAQ</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-            <!-- Upload Section -->
-            <div class="p-8">
-                <form id="uploadForm" action="/predict/" method="POST" enctype="multipart/form-data" class="space-y-6">
-                    {% csrf_token %}
-                    
-                    <!-- Drag and Drop Zone -->
-                    <div id="dropZone" class="drop-zone relative border-2 border-dashed border-brand-primary rounded-2xl p-12 text-center cursor-pointer transition-all duration-300 hover:bg-brand-primary/5">
-                        <input 
-                            type="file" 
-                            id="fileInput" 
-                            name="logo" 
-                            accept="image/*" 
-                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                        >
-                        <div id="dropText" class="pointer-events-none">
-                            <i data-lucide="upload-cloud" class="mx-auto w-16 h-16 stroke-brand-primary mb-4 animate-float"></i>
-                            <p class="text-lg font-semibold text-brand-dark">
-                                Drag & Drop or 
-                                <span class="text-brand-primary underline">Browse</span>
-                            </p>
-                            <p class="text-sm text-gray-500 mt-2">
-                                Supported formats: PNG, JPG, JPEG (Max 5MB)
-                            </p>
-                        </div>
+    <!-- Main Content -->
+    <main>
+        <div class="w-full max-w-xl">
+            <div class="bg-white shadow-2xl rounded-3xl overflow-hidden transform transition-all duration-500 hover:scale-105">
+                <!-- Header -->
+                <div class="bg-gradient-to-r from-brand-primary to-brand-secondary p-6 text-center">
+                    <h1 class="text-4xl font-bold text-white tracking-tight flex items-center justify-center space-x-3">
+                        <i data-lucide="shield-check" class="w-10 h-10 stroke-white"></i>
+                        <span>Logo Authenticator</span>
+                    </h1>
+                    <p class="text-white/80 mt-2">AI-Powered Logo Verification System</p>
+                </div>
+
+                <!-- Upload Section -->
+                <div class="p-8">
+                    <form id="uploadForm" action="/predict/" method="POST" enctype="multipart/form-data" class="space-y-6">
+                        {% csrf_token %}
                         
-                        <!-- Preview Container -->
-                        <div id="previewContainer" class="hidden mt-4">
-                            <img 
-                                id="imagePreview" 
-                                src="#" 
-                                alt="Logo Preview" 
-                                class="mx-auto max-h-64 rounded-lg shadow-lg"
+                        <!-- Drag and Drop Zone -->
+                        <div id="dropZone" class="drop-zone relative border-2 border-dashed border-brand-primary rounded-2xl p-12 text-center cursor-pointer transition-all duration-300 hover:bg-brand-primary/5">
+                            <input 
+                                type="file" 
+                                id="fileInput" 
+                                name="logo" 
+                                accept="image/*" 
+                                class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                             >
-                            <p id="fileName" class="mt-2 text-sm text-gray-600"></p>
+                            <div id="dropText" class="pointer-events-none">
+                                <i data-lucide="upload-cloud" class="mx-auto w-16 h-16 stroke-brand-primary mb-4 animate-float"></i>
+                                <p class="text-lg font-semibold text-brand-dark">
+                                    Drag & Drop or 
+                                    <span class="text-brand-primary underline">Browse</span>
+                                </p>
+                                <p class="text-sm text-gray-500 mt-2">
+                                    Supported formats: PNG, JPG, JPEG (Max 5MB)
+                                </p>
+                            </div>
+                            
+                            <!-- Preview Container -->
+                            <div id="previewContainer" class="hidden mt-4">
+                                <img 
+                                    id="imagePreview" 
+                                    src="#" 
+                                    alt="Logo Preview" 
+                                    class="mx-auto max-h-64 rounded-lg shadow-lg"
+                                >
+                                <p id="fileName" class="mt-2 text-sm text-gray-600"></p>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Submit Button -->
-                    <button 
-                        type="submit" 
-                        id="submitButton"
-                        class="w-full bg-brand-primary text-white py-3 rounded-lg font-semibold 
-                               hover:bg-brand-primary/90 transition-all duration-300 
-                               flex items-center justify-center space-x-2 
-                               disabled:opacity-50 disabled:cursor-not-allowed"
-                        disabled
-                    >
-                        <i data-lucide="shield-check" class="w-5 h-5"></i>
-                        <span>Verify Logo</span>
-                    </button>
-                </form>
+                        <!-- Submit Button -->
+                        <button 
+                            type="submit" 
+                            id="submitButton"
+                            class="w-full bg-brand-primary text-white py-3 rounded-lg font-semibold 
+                                hover:bg-brand-primary/90 transition-all duration-300 
+                                flex items-center justify-center space-x-2 
+                                disabled:opacity-50 disabled:cursor-not-allowed"
+                            disabled
+                        >
+                            <i data-lucide="shield-check" class="w-5 h-5"></i>
+                            <span>Verify Logo</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Service Info Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                <!-- Speed Card -->
+                <div class="bg-white p-4 rounded-xl shadow-lg">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <div class="bg-blue-100 p-2 rounded-full">
+                            <i data-lucide="zap" class="w-5 h-5 stroke-brand-primary"></i>
+                        </div>
+                        <h3 class="font-semibold text-brand-dark">Fast Analysis</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Get results in seconds with our advanced AI processing.</p>
+                </div>
+                
+                <!-- Accuracy Card -->
+                <div class="bg-white p-4 rounded-xl shadow-lg">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <div class="bg-green-100 p-2 rounded-full">
+                            <i data-lucide="check-circle" class="w-5 h-5 stroke-brand-secondary"></i>
+                        </div>
+                        <h3 class="font-semibold text-brand-dark">99.8% Accuracy</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Our AI model is trained on millions of authentic logos.</p>
+                </div>
+                
+                <!-- Security Card -->
+                <div class="bg-white p-4 rounded-xl shadow-lg">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <div class="bg-purple-100 p-2 rounded-full">
+                            <i data-lucide="lock" class="w-5 h-5 stroke-purple-600"></i>
+                        </div>
+                        <h3 class="font-semibold text-brand-dark">Secure Processing</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Your uploads are encrypted and automatically deleted after analysis.</p>
+                </div>
             </div>
         </div>
+    </main>
 
-        <!-- Footer -->
-        <div class="text-center mt-6 text-gray-500 text-sm">
-            <p>Powered by Advanced AI Technology</p>
+    <!-- Footer -->
+    <footer class="w-full bg-brand-dark text-white py-6 px-6">
+        <div class="container mx-auto">
+            <!-- Top Footer -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <i data-lucide="shield" class="w-6 h-6 stroke-brand-primary"></i>
+                        <h3 class="text-lg font-bold">Logo Shield</h3>
+                    </div>
+                    <p class="text-sm text-gray-400">
+                        Advanced AI-powered logo authentication technology to protect brand integrity.
+                    </p>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>
+                            <a href="/about/" class="hover:text-brand-primary transition-colors">About Us</a>
+                        </li>
+                        <li>
+                            <a href="/services/" class="hover:text-brand-primary transition-colors">Our Services</a>
+                        </li>
+                        <li>
+                            <a href="/blog/" class="hover:text-brand-primary transition-colors">Blog</a>
+                        </li>
+                        <li>
+                            <a href="/contact/" class="hover:text-brand-primary transition-colors">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-lg font-bold mb-4">Contact Us</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="mail" class="w-4 h-4 stroke-brand-primary"></i>
+                            <a href="mailto:info@logoshield.com" class="hover:text-brand-primary transition-colors">info@logoshield.com</a>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i data-lucide="phone" class="w-4 h-4 stroke-brand-primary"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bottom Footer -->
+            <div class="pt-4 border-t border-gray-700 flex flex-col md:flex-row items-center justify-between">
+                <p class="text-sm text-gray-500 mb-4 md:mb-0">
+                    &copy; 2025 Logo Shield. All rights reserved.
+                </p>
+                
+                <!-- Social Media Links -->
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-500 hover:text-brand-primary transition-colors">
+                        <i data-lucide="twitter" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-brand-primary transition-colors">
+                        <i data-lucide="facebook" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-brand-primary transition-colors">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-brand-primary transition-colors">
+                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
+    </footer>
 
     <script>
         // Initialize Lucide Icons
